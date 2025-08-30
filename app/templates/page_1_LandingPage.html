@@ -5,10 +5,15 @@
 {% block content %}
 <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 80vh;">
     <div class="text-center">
-        <div class="p-4 mb-4 welcome-container">
-            <h1 class="fw-bold text-dark">Welcome!</h1>
+        <div class="square-logo-container">
+            <img class="square-logo" src="{{ url_for('static', filename='images/H-removebg-preview2.png') }}" alt="logo">
         </div>
-        <h4 class="fw-semibold text-dark">HomeSwipe</h4>
+
+        <div class="p-4 mb-4 welcome-container">
+            <h1 class="fw-bold text-dark">HomeSwipe</h1>
+        </div>
+
+        <!--<h4 class="fw-semibold text-dark">HomeSwipe</h4>-->
         <p class="fw-bold text-dark">Find your one true (housing) match</p>
         <p class="text-muted" style="max-width: 500px; margin: auto;">
             Making the renting process easier for <i>both</i> tenants and landlords, saving time by 

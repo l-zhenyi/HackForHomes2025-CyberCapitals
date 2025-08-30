@@ -3,9 +3,9 @@ body {
   margin: 0;
 }
 /**----------navbar----------**/
-img.logo {
-  width: auto;
-  height: 60px;
+img .logo {
+  width: 100%;
+  height: auto;
   /**margin-right: 34px;*/
 }
 
@@ -1025,4 +1025,15 @@ table.table-outline-dark .btn {
   display: inline;
   background-color: #8ddcff;
   color: black;
+}
+
+div .square-logo-container{
+  justify-content: center;
+}
+
+div .square-logo{
+  width: 70%;
+  height: auto;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
