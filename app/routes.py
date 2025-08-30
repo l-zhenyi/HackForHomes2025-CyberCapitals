@@ -1206,3 +1206,6 @@ def suggest_suburbs(bio_text: str) -> list[str]:
 def landlord_chat():
     return render_template("chat.html")
 
+@blueprint.route("/star_buffer_rating", methods=["GET"])
+def star_buffer_rating():
+    return render_template("star_buffer_rating.html")
