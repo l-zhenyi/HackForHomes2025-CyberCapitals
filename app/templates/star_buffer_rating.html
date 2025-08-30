@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+
+{% block title %}Document Verification - Success{% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="text-center">
+        <!-- Success Animation Container -->
+        <div class="success-animation mb-4">
+            <div class="checkmark-circle">
+                <div class="checkmark"></div>
+            </div>
+        </div>
+        
+        <!-- Success Message -->
+        <div class="p-4 mb-4 success-container">
+            <h1 class="fw-bold text-success mb-3">
+                <i class="fas fa-check-circle me-2"></i>
+                Documents Verification Successful!
+            </h1>
+        </div>
+        
+        <!-- Star Rating Section -->
+        <div class="rating-container mb-4">
+            <div class="star-image-container mb-3">
+                <div class="star-shine">
+                    <i class="fas fa-star star-icon"></i>
+                </div>
+            </div>
+            <h2 class="fw-bold text-warning mb-2">You have a 5-star rating!</h2>
+            <div class="stars-display mb-3">
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+            </div>
+        </div>
+        
+        <!-- Additional Info -->
+        <div class="info-section mb-4">
+            <p class="text-muted" style="max-width: 600px; margin: auto;">
+                <i class="fas fa-shield-alt me-2 text-success"></i>
+                Your identity and documents have been successfully verified. 
+                Your excellent rating makes you a preferred tenant choice!
+            </p>
+            <div class="verification-badges mt-3">
+                <span class="badge bg-success me-2">
+                    <i class="fas fa-id-card me-1"></i>ID Verified
+                </span>
+                <span class="badge bg-success me-2">
+                    <i class="fas fa-file-alt me-1"></i>Documents Approved
+                </span>
+                <span class="badge bg-warning text-dark">
+                    <i class="fas fa-star me-1"></i>5-Star Tenant
+                </span>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="mt-4">
+            <a href="{{ url_for('main.landlord_chat') }}" class="btn intro-btn px-4 me-3">
+                <i class="fas fa-comments me-2"></i>Start Chatting
+            </a>
+            <a href="{{ url_for('main.login') }}" class="btn btn-outline-primary px-4">
+                <i class="fas fa-home me-2"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Success Animation Styles */
+.success-animation {
+    animation: bounceIn 0.8s ease-out;
+}
+
+.checkmark-circle {
+    width: 80px;
+    height: 80px;
+    border: 3px solid #28a745;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    background-color: #d4edda;
+    animation: pulse 2s infinite;
+}
+
+.checkmark {
+    width: 25px;
+    height: 45px;
+    border: solid #28a745;
+    border-width: 0 4px 4px 0;
+    transform: rotate(45deg);
+    animation: checkmarkDraw 0.5s ease-out 0.3s both;
+}
+
+/* Star Animation Styles */
+.star-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.star-shine {
+    position: relative;
+    display: inline-block;
+    animation: starShine 2s ease-in-out infinite;
+}
+
+.star-icon {
+    font-size: 4rem;
+    color: #ffc107;
+    filter: drop-shadow(0 0 10px rgba(255, 193, 7, 0.5));
+    animation: starPulse 1.5s ease-in-out infinite alternate;
+}
+
+.star-shine::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle, rgba(255, 193, 7, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Stars Display */
+.stars-display {
+    font-size: 1.5rem;
+    letter-spacing: 0.2rem;
+    animation: starsGlow 2s ease-in-out infinite alternate;
+}
+
+.stars-display i {
+    animation: starTwinkle 1s ease-in-out infinite;
+}
+
+.stars-display i:nth-child(2) { animation-delay: 0.2s; }
+.stars-display i:nth-child(3) { animation-delay: 0.4s; }
+.stars-display i:nth-child(4) { animation-delay: 0.6s; }
+.stars-display i:nth-child(5) { animation-delay: 0.8s; }
+
+/* Success Container */
+.success-container {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    border-radius: 15px;
+    border: 2px solid #28a745;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+}
+
+.rating-container {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+    border-radius: 15px;
+    padding: 30px;
+    border: 2px solid #ffc107;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+}
+
+/* Verification Badges */
+.verification-badges .badge {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    border-radius: 20px;
+    margin: 5px;
+    animation: badgePop 0.5s ease-out;
+}
+
+/* Button Styling */
+.intro-btn {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.intro-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+    color: white;
+}
+
+/* Animations */
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+}
+
+@keyframes checkmarkDraw {
+    0% { height: 0; }
+    100% { height: 45px; }
+}
+
+@keyframes starShine {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.1) rotate(5deg); }
+}
+
+@keyframes starPulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+}
+
+@keyframes starsGlow {
+    0% { text-shadow: 0 0 5px rgba(255, 193, 7, 0.5); }
+    100% { text-shadow: 0 0 20px rgba(255, 193, 7, 0.8); }
+}
+
+@keyframes starTwinkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(0.9); }
+}
+
+@keyframes badgePop {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .star-icon {
+        font-size: 3rem;
+    }
+    
+    .stars-display {
+        font-size: 1.2rem;
+    }
+    
+    .rating-container {
+        padding: 20px;
+    }
+    
+    .intro-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+</style>
+{% endblock %}
