@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Edit Document{% endblock %}
+{% block title %}Dashboard{% endblock %}
 {% block content %}
 
 <div class="container">
@@ -14,7 +14,7 @@
         <div class="row">
 
             <div class="text-center col-md-12 upcoming-appt-col">
-                <h2 class="h2-title mb-4">Your Upcoming Appointments</h2>
+                <h2 class="h2-title mb-4">Your Upcoming Viewings</h2>
                 <div class="d-grid gap-3">
                     {% for appt in upcoming_appointments %}
                     <div class="p-3 bg-light rounded shadow-sm upcoming-appt-details">
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     {% else %}
-                    <p class="text-muted">No upcoming appointments.</p>
+                    <p class="text-muted">No upcoming viewings.</p>
                     {% endfor %}
                 </div>
             </div>
@@ -40,7 +40,7 @@
         <div class="row">
 
             <div class="text-center col-md-12 upcoming-appt-col">
-                <h2 class="h2-title mb-4">Your Expiring Referrals / Insurance</h2>
+                <h2 class="h2-title mb-4">Your Expiring Documents</h2>
                 <div class="d-grid gap-3">
                     {% for doc in expiring_docs %}
                     <div class="p-3 bg-light rounded shadow-sm upcoming-appt-details">
@@ -71,7 +71,7 @@
         <div class="row justify-content-center text-center">
             <div class="col-md-3 action-col"><a class="" href="{{ url_for('main.add_appointment') }}"><img
                     src="{{url_for('static',filename='images/add-appointment.png')}}"></a><br>
-                <h3>Add Appointment</h3>
+                <h3>Add Viewing</h3>
             </div>
             <div class="col-md-3 action-col"><a class="" href="{{ url_for('main.calendar') }}"><img
                     src="{{url_for('static',filename='images/view-calendar.png')}}"></a><br>
@@ -93,7 +93,7 @@
 
 <div class="container">
     <div class="text-center">
-        <h1 class="featured-h1">Featured Specialisations</h1>
+        <h1 class="featured-h1">Featured Properties</h1>
     </div>
 </div>
 
@@ -104,17 +104,15 @@
             <!-- Slide 1: Football Club Featured -->
             <div class="swiper-slide">
                 <div class="row align-items-center">
-                    <div class="col-md-6 d-flex justify-content-center">
-                        <img src="{{url_for('static',filename='images/physiotherapist.png')}}"
-                            class="img-fluid featured-img" alt="Football Club">
+                    <div class="col-md-9 d-flex justify-content-center">
+                        <img src="{{url_for('static',filename='images/apartment1.png')}}"
+                            class="img-fluid featured-img" alt="An apartment with a balcony">
                     </div>
                     <div class="col-md-6 featured-col text-col">
                         <div class="text-wrapper">
-                            <span>Now Available</span>
-                            <h3 class="featured-title">Physiotherapy Services Available!</h3>
-                            <p class="featured-desc">Get personalized physiotherapy treatments to improve mobility,
-                                relieve pain, and restore function.</p>
-                            <a href="{{ url_for('main.add_appointment') }}" class="btn">Book an Appointment Now!
+                            <h3 class="featured-title">3 Bed 2 Bath Apartment</h3>
+                            <p class="featured-desc">Located in the middle of the city, enjoy the benefits of a prime location without compromising on your quality of life.</p>
+                            <a href="{{ url_for('main.add_appointment') }}" class="btn">Book a viewing now!
                                 &#8594;</a>
                         </div>
                     </div>
@@ -124,17 +122,15 @@
             <!-- Example additional slide -->
             <div class="swiper-slide">
                 <div class="row align-items-center">
-                    <div class="col-md-6 d-flex justify-content-center">
-                        <img src="{{url_for('static',filename='images/cardiologist.png')}}"
-                            class="img-fluid featured-img" alt="Martial Art">
+                    <div class="col-md-9 d-flex justify-content-center">
+                        <img src="{{url_for('static',filename='images/house.png')}}"
+                            class="img-fluid featured-img" alt="A nicely decorated living room">
                     </div>
                     <div class="col-md-6 featured-col text-col">
                         <div class="text-wrapper">
-                            <span>Now Available</span>
-                            <h3 class="featured-title">Cardiology Consultations Open!</h3>
-                            <p class="featured-desc">Monitor and improve your heart health with expert advice and
-                                advanced cardiac care.</p>
-                            <a href="{{ url_for('main.add_appointment') }}" class="btn">Book an Appointment Now!
+                            <h3 class="featured-title">2 Bed 1 Bath</h3>
+                            <p class="featured-desc">Live in comfort in your preferred suburb</p>
+                            <a href="{{ url_for('main.add_appointment') }}" class="btn">Book a viewing now!
                                 &#8594;</a>
                         </div>
                     </div>
@@ -143,17 +139,15 @@
 
             <div class="swiper-slide">
                 <div class="row align-items-center">
-                    <div class="col-md-6 d-flex justify-content-center">
-                        <img src="{{url_for('static',filename='images/neurologist.png')}}"
-                            class="img-fluid featured-img" alt="Computing">
+                    <div class="col-md-9 d-flex justify-content-center">
+                        <img src="{{url_for('static',filename='images/room.png')}}"
+                            class="img-fluid featured-img" alt="An empty room">
                     </div>
                     <div class="col-md-6 featured-col text-col">
                         <div class="text-wrapper">
-                            <span>Now Available</span>
-                            <h3 class="featured-title">Neurology Expertise at Your Service!</h3>
-                            <p class="featured-desc">Consult with specialist neurologists for diagnosis and
-                                treatment of brain and nerve disorders.</p>
-                            <a href="{{ url_for('main.add_appointment') }}" class="btn">Book an Appointment Now!
+                            <h3 class="featured-title">1 Bed 1 Bath</h3>
+                            <p class="featured-desc">Have a new beginning with a blank slate</p>
+                            <a href="{{ url_for('main.add_appointment') }}" class="btn">Book a viewing now!
                                 &#8594;</a>
                         </div>
                     </div>
@@ -169,6 +163,7 @@
     </div>
 </section>
 
+<!--
 <div class="container">
     <div class="text-center">
         <h1 class="testimonial-h1">Testimonials</h1>
@@ -251,6 +246,7 @@
         </div>
     </div>
 </div>
+-->
 
 
 {% endblock %}
