@@ -1206,6 +1206,3 @@ def suggest_suburbs(bio_text: str) -> list[str]:
 def landlord_chat():
     return render_template("chat.html")
 
-@blueprint.route("/document_verification", methods=["GET"])
-def document_verification():
-    return render_template("document_verification.html")
