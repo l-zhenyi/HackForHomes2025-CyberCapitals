@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile Settings{% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="text-center">
+        <div class="p-4 mb-4 welcome-container">
+            <h1 class="fw-bold text-dark">Update Your Profile</h1>
+        </div>
+        
+        <h4 class="fw-semibold text-dark">Profile Settings</h4>
+        
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="alert alert-success">
+                    {% for category, message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" class="w-100">
+            {{ form.hidden_tag() }}
+            
+            <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                {{ form.first_name(class="form-control", placeholder="Enter first name") }}
+            </div>
+            <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                {{ form.last_name(class="form-control", placeholder="Enter last name") }}
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                {{ form.email(class="form-control", readonly="readonly") }}
+            </div>
+            <div class="mb-3">
+                <label for="mobile_number" class="form-label">Mobile Number</label>
+                {{ form.mobile_number(class="form-control", placeholder="Enter mobile number") }}
+            </div>
+            <div class="mb-3">
+                <label for="insurance_type" class="form-label">Insurance Type</label>
+                {{ form.insurance_type(class="form-control", placeholder="Enter insurance type") }}
+            </div>
+            <div class="mb-3">
+                <label for="dob" class="form-label">Date of Birth</label>
+                {{ form.dob(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                {{ form.address(class="form-control", placeholder="Enter address") }}
+            </div>
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                {{ form.gender(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">New Password</label>
+                {{ form.password(class="form-control", placeholder="Enter new password") }}
+            </div>
+            <div class="mb-3">
+                <label for="confirm_password" class="form-label">Confirm Password</label>
+                {{ form.confirm_password(class="form-control", placeholder="Confirm new password") }}
+            </div>
+
+            <!-- Verification fields (checkboxes) -->
+            <div class="mb-3">
+                <label>{{ form.phone_verified.label }}</label>
+                {{ form.phone_verified() }}
+            </div>
+            <div class="mb-3">
+                <label>{{ form.bank_acc_verified.label }}</label>
+                {{ form.bank_acc_verified() }}
+            </div>
+            <div class="mb-3">
+                <label>{{ form.gov_id_verified.label }}</label>
+                {{ form.gov_id_verified() }}
+            </div>
+            <div class="mb-3">
+                <label>{{ form.emp_study_proof_verified.label }}</label>
+                {{ form.emp_study_proof_verified() }}
+            </div>
+            <div class="mb-3">
+                <label>{{ form.guarantor_verified.label }}</label>
+                {{ form.guarantor_verified() }}
+            </div>
+
+            <!-- Star Rating -->
+            <div class="mb-3">
+                <strong>Star Rating: </strong>
+                <span id="star-rating">0 / 5</span>
+            </div>
+
+            <!-- Submit button -->
+            <div class="mt-4">
+                {{ form.submit(class="btn btn-primary px-4") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- JavaScript to calculate star rating dynamically -->
+<script>
+    // Function to calculate the star rating based on checked boxes
+    function updateStarRating() {
+        var checkboxes = document.querySelectorAll("input[type='checkbox']");
+        var checkedCount = 0;
+
+        // Count how many checkboxes are checked
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                checkedCount++;
+            }
+        });
+
+        // Update the star rating display
+        document.getElementById("star-rating").innerText = checkedCount + " / 5";
+    }
+
+    // Attach event listeners to update the star rating when any checkbox is changed
+    var checkboxes = document.querySelectorAll("input[type='checkbox']");
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', updateStarRating);
+    });
+
+    // Initial calculation when the page loads
+    updateStarRating();
+</script>
+
+{% endblock %}
