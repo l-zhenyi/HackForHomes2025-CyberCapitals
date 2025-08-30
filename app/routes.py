@@ -503,7 +503,6 @@ def calendar():
 def medical_document():
     # Get all documents for the current user
     query = request.args.get('q', '').strip()  # Search query
-    practitioner = request.args.get('practitioner', '')  # Filter by practitioner
     doc_type = request.args.get('type', '')  # Filter by document type
     expiration_date = request.args.get('expiration_date', '')  # Filter by expiration date
     sort_by = request.args.get('sort', 'upload-desc')  # Sort by upload date or expiration date
@@ -515,13 +514,8 @@ def medical_document():
     if query:
         documents = documents.filter(
             (Document.document_name.ilike(f'%{query}%')) |
-            (Document.document_notes.ilike(f'%{query}%')) |
-            (Document.practitioner_name.ilike(f'%{query}%'))
+            (Document.document_notes.ilike(f'%{query}%')) 
         )
-
-    # Filter by practitioner name
-    if practitioner:
-        documents = documents.filter(Document.practitioner_name.ilike(f'%{practitioner}%'))
 
     # Filter by document type
     if doc_type:
@@ -553,7 +547,6 @@ def medical_document():
         documents=documents,
         sort_by=sort_by,
         query=query,
-        practitioner=practitioner,
         doc_type=doc_type,
         expiration_date=expiration_date
     )
@@ -649,8 +642,7 @@ def upload_document():
         document_name = request.form['document_name']
         document_type = request.form['document_type']
         document_notes = request.form.get('document_notes', '')
-        practitioner_name = request.form.get('practitioner_name', '')
-        practitioner_type = request.form.get('practitioner_type', '')
+        verification_status = False
 
         # Parse and validate date fields
         upload_date_str = request.form.get('upload_date')
@@ -679,8 +671,7 @@ def upload_document():
             document_name=document_name,
             document_type=document_type,
             document_notes=document_notes,
-            practitioner_name=practitioner_name,
-            practitioner_type=practitioner_type,
+            verification_status=verification_status,
             upload_date=upload_date,
             expiration_date=expiration_date,
             file=filename
@@ -891,9 +882,7 @@ def edit_document(doc_id):
         document.upload_date = form.upload_date.data
         document.document_type = form.document_type.data
         document.document_notes = form.document_notes.data
-        document.practitioner_name = form.practitioner_name.data
         document.expiration_date = form.expiration_date.data
-        document.practitioner_type = form.practitioner_type.data
 
         db.session.commit()
 
@@ -1114,3 +1103,7 @@ def change_password():
         return redirect(url_for("main.user_profile"))
 
     return render_template("page_17_ChangePassword.html", form=form)
+
+@blueprint.route("/landlord_chat", methods=["GET"])
+def landlord_chat():
+    return render_template("chat.html")

@@ -11,6 +11,11 @@
                 + Upload a New Document
             </a>
         </div>
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <a class="btn btn-purple-calender shadow-sm fw-bold px-4 py-2">
+                Share Documents
+            </a>
+        </div>
     </div>
 
     <form method="GET" class="d-flex flex-wrap align-items-end gap-3 mb-3">
@@ -62,8 +67,8 @@
                 <tr class="fw-bold text-muted">
                     <th>Document</th>
                     <th>Type</th>
-                    <th>Uploaded on</th>
-                    <th>Expires on</th>
+                    <!-- <th>Uploaded on</th>
+                    <th>Expires on</th> -->
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -76,6 +81,7 @@
                     </a>
                     </td>
                     <td>{{ doc.document_type }}</td>
+                    <!--
                     <td>{{ doc.upload_date.strftime('%d/%m/%Y') }}</td>
                     <td>
                         {% if doc.expiration_date %}
@@ -83,7 +89,7 @@
                         {% else %}
                         N/A
                         {% endif %}
-                    </td>
+                    </td> -->
                     <td>
                         <!-- UPDATED: blue btn-Tests + black text -->
                         <a href="{{ url_for('main.edit_document', doc_id=doc.id) }}"
@@ -99,6 +105,14 @@
                         <a href="{{ url_for('main.delete_document', doc_id=doc.id) }}" class="btn btn-Missed btn-sm"
                            onclick="return confirm('Delete this document?')">
                             Delete
+                        </a>
+
+                        <a class="btn verification">
+                            {% if doc.verification %}
+                            <span style="color:MediumSeaGreen">Verified</span>
+                            {% else %}
+                            <span style="color:tomato">Not Verified</span>
+                            {% endif %}
                         </a>
                     </td>
                 </tr>
