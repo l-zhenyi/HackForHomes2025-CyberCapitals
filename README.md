@@ -59,18 +59,18 @@ Builds trust: A chat feature directly connects matched tenants and landlords, sp
   </tr>
   <tr>
     <td>Punit Nitin Patil</td>
-    <td>@Punit750</td>
+    <td>[@Punit750]</td>
   </tr>
   <tr>
     <td>Caroline Ann</td>
-    <td>@CrimsonW23</td>
+    <td>[@CrimsonW23]</td>
   </tr>
   <tr>
     <td>Zhen Yi L.</td>
-    <td>@l-zhenyi</td>
+    <td>[@l-zhenyi]</td>
   </tr>
   <tr>
     <td>Dharun Somalingam</td>
-    <td>@DharunSomalingam</td>
+    <td>[@DharunSomalingam]</td>
   </tr>
 </table>
