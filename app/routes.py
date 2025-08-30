@@ -89,6 +89,54 @@ def logout():
     flash("You have been logged out", "info")
     return redirect(url_for("main.index"))
 
+@blueprint.route('/swipe/<suburb>')
+def swipe(suburb):
+    houses = [
+        {
+            "id": 1,
+            "name": f"{suburb} House 1",
+            "price": "$1200/month",
+            "details": "2BHK, near park",
+            "owner": "Alice",
+            "photos": ["house1.png", "house2.png"]  # <- add here
+        },
+        {
+            "id": 2,
+            "name": f"{suburb} House 2",
+            "price": "$1500/month",
+            "details": "3BHK, close to station",
+            "owner": "Bob",
+            "photos": ["house3.png", "house4.png"]
+        },
+        {
+            "id": 3,
+            "name": f"{suburb} House 3",
+            "price": "$1000/month",
+            "details": "1BHK, quiet area",
+            "owner": "Charlie",
+            "photos": ["house5.png", "house6.png"]
+        }
+    ]
+    return render_template('swipe.html', suburb=suburb, houses=houses)
+
+
+@blueprint.route('/details/<int:house_id>')
+def details(house_id):
+    # For now, we can use fake data
+    houses = {
+        1: {"name": "House 1", "price": "$1200/month", "details": "2BHK, near park", "owner": "John Doe", "photos": ["house1.png", "house2.png"]},
+        2: {"name": "House 2", "price": "$1500/month", "details": "3BHK, close to station", "owner": "Jane Smith", "photos": ["house3.png", "house4.png"]},
+        3: {"name": "House 3", "price": "$1000/month", "details": "1BHK, quiet area", "owner": "Alice Brown", "photos": ["house5.png", "house6.png"]},
+        # add more if needed
+    }
+    
+    house = houses.get(house_id)
+    if not house:
+        return "House not found", 404
+
+    return render_template('details.html', house=house)
+
+
 # Page 3 - Register Page
 @blueprint.route("/register", methods=["GET", "POST"])
 def register():
