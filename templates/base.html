@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
 </head>
 <body>
-    <header>
+      <header>
         <div class="logo">
             <a class="logo" href="{{ url_for('home') }}">RentMatch</a>
         </div>
@@ -31,14 +31,14 @@
       
       {% block content %}{% endblock %}
 
-  <footer>
-    <div class="footer-content">
-      <p>&copy; 2025 RentMatch. All rights reserved.</p>
-      <nav>
-        <a href="{{ url_for('terms_conditions') }}">Terms & Conditions</a>
-        <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
-      </nav>
-    </div>
-  </footer>
+      <footer>
+            <div class="footer-content">
+            <p>&copy; 2025 RentMatch. All rights reserved.</p>
+            <nav>
+                  <a href="{{ url_for('terms_conditions') }}">Terms & Conditions</a>
+                  <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+            </nav>
+            </div>
+      </footer>
 </body>
 </html>
