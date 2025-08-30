@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
-{% block title %}Medical Documents{% endblock %}
+{% block title %}My Documents{% endblock %}
 {% block content %}
 
 <div class="container py-5">
     <div class="text-center mb-5">
-        <h1 class="title-purple-text fw-bold" style="font-size: 2.8rem;">Your Medical Documents</h1>
+        <h1 class="title-purple-text fw-bold" style="font-size: 2.8rem;">My Documents<br></h1>
 
         <div class="d-flex justify-content-center gap-3 mt-3">
             <a href="{{ url_for('main.upload_document') }}" class="btn btn-purple-calender shadow-sm fw-bold px-4 py-2">
-                + Upload New Document
+                + Upload a New Document
             </a>
-            <a href="{{ url_for('main.share_document') }}" class="btn btn-purple-calender shadow-sm fw-bold px-4 py-2">
-                ← Share and Recieve Your Documents
+        </div>
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <a class="btn btn-purple-calender shadow-sm fw-bold px-4 py-2">
+                Share Documents
             </a>
         </div>
     </div>
@@ -19,15 +21,8 @@
     <form method="GET" class="d-flex flex-wrap align-items-end gap-3 mb-3">
         <!-- Search box -->
         <div class="flex-grow-1">
-            <label for="q" class="form-label fw-semibold text-purple">Search by name, notes, or practitioner</label>
-            <input type="text" name="q" class="form-control" placeholder="e.g. MRI or Dr Smith" value="{{ query }}">
-        </div>
-
-        <!-- Practitioner box -->
-        <div class="flex-grow-1">
-            <label for="practitioner" class="form-label fw-semibold text-purple">Practitioner</label>
-            <input type="text" name="practitioner" class="form-control" placeholder="e.g. Dr John Doe"
-                   value="{{ practitioner }}">
+            <label for="q" class="form-label fw-semibold text-purple">Search by name or notes</label>
+            <input type="text" name="q" class="form-control" placeholder="e.g. License or &quot;to be sent&quot" value="{{ query }}">
         </div>
 
         <!-- Document Type dropdown -->
@@ -35,9 +30,9 @@
             <label for="type" class="form-label fw-semibold text-purple">Document Type</label>
             <select name="type" class="form-select">
                 <option value="">All Types</option>
-                <option value="report" {% if doc_type=='report' %}selected{% endif %}>Report</option>
-                <option value="referral" {% if doc_type=='referral' %}selected{% endif %}>Referral</option>
-                <option value="result" {% if doc_type=='result' %}selected{% endif %}>Test Result</option>
+                <option value="identity" {% if doc_type=='identity' %}selected{% endif %}>Identity Document</option>
+                <option value="income_proof" {% if doc_type=='income_proof' %}selected{% endif %}>Proof of Income</option>
+                <option value="other" {% if doc_type=='other' %}selected{% endif %}>Other</option>
                 <!-- Add more if needed -->
             </select>
         </div>
@@ -71,10 +66,9 @@
                 <thead>
                 <tr class="fw-bold text-muted">
                     <th>Document</th>
-                    <th>Practitioner</th>
                     <th>Type</th>
-                    <th>Uploaded</th>
-                    <th>Expiration</th>
+                    <!-- <th>Uploaded on</th>
+                    <th>Expires on</th> -->
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -86,8 +80,8 @@
                         {{ doc.document_name }}
                     </a>
                     </td>
-                    <td>{{ doc.practitioner_name or 'N/A' }}</td>
                     <td>{{ doc.document_type }}</td>
+                    <!--
                     <td>{{ doc.upload_date.strftime('%d/%m/%Y') }}</td>
                     <td>
                         {% if doc.expiration_date %}
@@ -95,7 +89,7 @@
                         {% else %}
                         N/A
                         {% endif %}
-                    </td>
+                    </td> -->
                     <td>
                         <!-- UPDATED: blue btn-Tests + black text -->
                         <a href="{{ url_for('main.edit_document', doc_id=doc.id) }}"
@@ -111,6 +105,14 @@
                         <a href="{{ url_for('main.delete_document', doc_id=doc.id) }}" class="btn btn-Missed btn-sm"
                            onclick="return confirm('Delete this document?')">
                             Delete
+                        </a>
+
+                        <a class="btn verification">
+                            {% if doc.verification %}
+                            <span style="color:MediumSeaGreen">Verified</span>
+                            {% else %}
+                            <span style="color:tomato">Not Verified</span>
+                            {% endif %}
                         </a>
                     </td>
                 </tr>
