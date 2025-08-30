@@ -152,10 +152,6 @@
                         {% if session.get('role') == 'member' %}
                         <li class="nav-item"><a href="{{ url_for('main.dashboard') }}"
                                                 class="nav-item1 {% if request.endpoint == 'main.dashboard' %}active-link{% endif %}">Home</a></li>
-                        <li class="nav-item"><a href="{{ url_for('main.appointment_manager') }}"
-                                                class="nav-item1 {% if request.endpoint == 'main.appointment_manager' %}active-link{% endif %}">Appointment</a></li>
-                        <li class="nav-item"><a href="{{ url_for('main.calendar') }}"
-                                                class="nav-item1 {% if request.endpoint == 'main.calendar' %}active-link{% endif %}">Calendar</a></li>
                         <li class="nav-item"><a href="{{ url_for('main.medical_document') }}"
                                                 class="nav-item1 {% if request.endpoint == 'main.medical_document' %}active-link{% endif %}">Documents</a></li>
                         <li class="nav-item"><a href="{{ url_for('main.insights') }}"
@@ -196,8 +192,8 @@
 
         <!-- ===== Footer ===== -->
         <div class="footer">
-            <p>&copy; Copyright 2025. <span id='footer-name'>Home Swipe</span></p>
-            <p>CyberCapital </p>
+            <p>&copy; Copyright 2025. <span id='footer-name'>Chronic Care</span></p>
+            <p>Connect on <a href="#" class="footer-link">LinkedIn</a> | <a href="#" class="footer-link">Github</a></p>
         </div>
 
     </div>
