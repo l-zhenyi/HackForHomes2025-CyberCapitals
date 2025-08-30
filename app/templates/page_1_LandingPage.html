@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Welcome to Chronic Care{% endblock %}
+{% block title %}Welcome to your rental search solution{% endblock %}
 
 {% block content %}
 <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 80vh;">
@@ -8,11 +8,11 @@
         <div class="p-4 mb-4 welcome-container">
             <h1 class="fw-bold text-dark">Welcome!</h1>
         </div>
-        <h4 class="fw-semibold text-dark">Chronic Pain Tracker</h4>
-        <p class="fw-bold text-dark">Track your medical journey easily!</p>
+        <h4 class="fw-semibold text-dark">HomeSwipe</h4>
+        <p class="fw-bold text-dark">Find your one true (housing) match</p>
         <p class="text-muted" style="max-width: 500px; margin: auto;">
-            Manage appointments, store medical documents, receive reminders,
-            and easily share your health recorders with providers
+            Making the renting process easier for <i>both</i> tenants and landlords, saving time by 
+            matching them <b>efficiently</b> and connecting them <b>directly</b>.
         </p>
         <div class="mt-4">
             <a href="{{ url_for('main.login') }}" class="btn intro-btn px-4 me-3">Login</a>
