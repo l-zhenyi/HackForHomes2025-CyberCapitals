@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Flask App{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <!-- Swiper and icons -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+
+    <style>
+        /* ===== Body & Phone Mockup ===== */
+        body {
+            background: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .phone-frame {
+            width: 100%;
+            max-width: 390px; /* iPhone width */
+            border: 14px solid #000;
+            border-radius: 40px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .phone-frame::before {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 30px;
+            background: #000;
+            border-radius: 0 0 20px 20px;
+            position: absolute;
+            top: 0;
+            left: 20%;
+        }
+
+        .phone-screen {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 0.5rem;
+        }
+
+        /* Scrollbar (optional) */
+        .phone-screen::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .phone-screen::-webkit-scrollbar-thumb {
+            background: #aaa;
+            border-radius: 10px;
+        }
+
+        /* ===== Text Sizes ===== */
+        h1 {
+            font-size: 1.8rem;
+            margin: 1rem 0;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        p, .nav-item1, .footer p {
+            font-size: 1rem;
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            padding: 0.5rem 0;
+        }
+
+        .nav-item1 {
+            font-size: 0.9rem;
+            margin: 0 0.25rem;
+        }
+
+        .active-link {
+            font-weight: bold;
+            color: #6f42c1 !important; /* purple highlight */
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            padding: 0.5rem 0;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        /* ===== Responsive Media Queries ===== */
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            .nav-item1 {
+                font-size: 0.8rem;
+            }
+
+            .footer p {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="phone-frame">
+    <div class="phone-screen">
+
+        <!-- ===== Navbar ===== -->
+        <nav class="navbar navbar-expand-sm navbar-light bg-light sticky-top">
+            <div class="container-fluid px-2">
+                <a class="navbar-brand"
+                   href="{% if session.role == 'member' %}{{ url_for('main.dashboard') }}{% else %}{{ url_for('main.index') }}{% endif %}">
+                    <img class="logo" src="{{ url_for('static', filename='images/chronic-care-title.png') }}" alt="logo"
+                         style="max-height:40px;">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myList"
+                        aria-controls="myList" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="myList">
+                    <ul class="navbar-nav mx-auto flex-wrap text-center">
+                        {% if session.get('role') == 'member' %}
+                        <li class="nav-item"><a href="{{ url_for('main.dashboard') }}"
+                                                class="nav-item1 {% if request.endpoint == 'main.dashboard' %}active-link{% endif %}">Home</a></li>
+                        <li class="nav-item"><a href="{{ url_for('main.appointment_manager') }}"
+                                                class="nav-item1 {% if request.endpoint == 'main.appointment_manager' %}active-link{% endif %}">Appointment</a></li>
+                        <li class="nav-item"><a href="{{ url_for('main.calendar') }}"
+                                                class="nav-item1 {% if request.endpoint == 'main.calendar' %}active-link{% endif %}">Calendar</a></li>
+                        <li class="nav-item"><a href="{{ url_for('main.medical_document') }}"
+                                                class="nav-item1 {% if request.endpoint == 'main.medical_document' %}active-link{% endif %}">Documents</a></li>
+                        <li class="nav-item"><a href="{{ url_for('main.insights') }}"
+                                                class="nav-item1 {% if request.endpoint == 'main.insights' %}active-link{% endif %}">Insights</a></li>
+                        <li class="nav-item"><a href="{{ url_for('main.user_profile') }}"
+                                                class="nav-item1 {% if request.endpoint == 'main.user_profile' %}active-link{% endif %}">Profile</a></li>
+                        {% else %}
+                        <li class="nav-item"><a href="{{ url_for('main.index') }}"
+                                                class="nav-item1 {% if request.endpoint == 'main.index' %}active-link{% endif %}">Home</a></li>
+                        <li class="nav-item"><a href="{{ url_for('main.login') }}"
+                                                class="nav-item1 {% if request.endpoint == 'main.login' %}active-link{% endif %}">Login</a></li>
+                        <li class="nav-item"><a href="{{ url_for('main.register') }}"
+                                                class="nav-item1 {% if request.endpoint == 'main.register' %}active-link{% endif %}">Register</a></li>
+                        {% endif %}
+                        {% if session.get('role') %}
+                        <li class="nav-item"><a class="nav-item1" href="{{ url_for('main.logout') }}">Log Out</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ===== Flash Messages ===== -->
+        <div class="container mt-3 px-1">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        {% block content %}{% endblock %}
+
+        <!-- ===== Footer ===== -->
+        <div class="footer">
+            <p>&copy; Copyright 2025. <span id='footer-name'>Chronic Care</span></p>
+            <p>Connect on <a href="#" class="footer-link">LinkedIn</a> | <a href="#" class="footer-link">Github</a></p>
+        </div>
+
+    </div>
+</div>
+
+<!-- ===== Scripts ===== -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
