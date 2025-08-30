@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ house.name }}</title>
+<style>
+  body {
+    font-family: Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+  }
+
+  .container {
+    max-width: 400px;
+    margin: 1rem auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    padding-bottom: 1rem;
+  }
+
+  .back-button {
+    display: block;
+    text-align: center;
+    margin: 1rem;
+    padding: 0.8rem;
+    background: #3498db;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    margin: 1rem;
+  }
+
+  p {
+    margin: 0.5rem 1rem;
+    color: #555;
+  }
+
+  .photos {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .photos img {
+    width: 80%;
+    max-width: 300px;
+    margin: 0.5rem;
+    border-radius: 12px;
+    scroll-snap-align: center;
+    object-fit: cover;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>{{ house.name }}</h1>
+    <p><strong>Price:</strong> {{ house.price }}</p>
+    <p><strong>Details:</strong> {{ house.details }}</p>
+    <p><strong>Owner:</strong> {{ house.owner }}</p>
+
+    <div class="photos">
+      {% for photo in house.photos %}
+        <img src="{{ url_for('static', filename='images/' ~ photo) }}" alt="{{ house.name }}">
+      {% endfor %}
+    </div>
+
+    <a class="back-button" href="{{ url_for('main.swipe', suburb='ExampleSuburb') }}" id="backButton">Back to Swipe</a>
+  </div>
+
+  <script>
+    // Remember current card index in sessionStorage
+    const backButton = document.getElementById('backButton');
+
+    backButton.addEventListener('click', () => {
+      // Optional: store current index of swipe (if you pass it via query param or sessionStorage)
+      // Here we just keep the previous value in sessionStorage
+      // So swipe.html will continue from last swiped card
+    });
+  </script>
+</body>
+</html>
