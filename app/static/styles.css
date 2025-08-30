@@ -569,8 +569,12 @@ h1.appt-manager-h1 {
   font-size: 18px;
   position: relative;
   bottom: 100%;
-  padding: 30px 0 10px; /**top rightleft bot**/
+  padding: 30px 0; /**top rightleft bot**/
   margin-top: 30px;
+}
+
+.footer p {
+  margin-top: 10px;
 }
 
 .footer .col-md-6 .footer-link {
