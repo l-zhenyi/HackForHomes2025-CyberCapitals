@@ -85,28 +85,27 @@
     
     function initSwipe(card) {
         const hammertime = new Hammer(card);
-        
         // Configure Hammer.js for better swipe detection
-        hammertime.get('swipe').set({ 
-            direction: Hammer.DIRECTION_HORIZONTAL, 
-            threshold: 50, 
-            velocity: 0.3 
+        hammertime.get('swipe').set({
+            direction: Hammer.DIRECTION_HORIZONTAL,
+            threshold: 50,
+            velocity: 0.3
         });
-        
         hammertime.on('swipeleft', () => {
             card.classList.add('swipe-left');
             showNextCard();
         });
-        
         hammertime.on('swiperight', () => {
             card.classList.add('swipe-right');
             showNextCard();
         });
-        
         // Use tap instead of click to avoid conflicts
         hammertime.on('tap', () => {
             window.location.href = `/details/${card.dataset.id}`;
         });
+        
+        // Store hammer instance for cleanup
+        card.hammerInstance = hammertime;
     }
     
     function showNextCard() {
@@ -114,13 +113,52 @@
         setTimeout(() => {
             card.style.display = 'none';
             currentCardIndex++;
-            sessionStorage.setItem('currentCardIndex', currentCardIndex);
-            if (currentCardIndex < cards.length) {
-                cards[currentCardIndex].style.zIndex = cards.length;
+            
+            // Check if we've reached the end - ADD INFINITE LOOP HERE
+            if (currentCardIndex >= cards.length) {
+                resetCards();
+            } else {
+                sessionStorage.setItem('currentCardIndex', currentCardIndex);
+                if (currentCardIndex < cards.length) {
+                    cards[currentCardIndex].style.zIndex = cards.length;
+                }
             }
         }, 300);
     }
     
+    // ADD THIS NEW FUNCTION
+    function resetCards() {
+        // Reset index
+        currentCardIndex = 0;
+        sessionStorage.setItem('currentCardIndex', 0);
+        
+        // Small delay before showing cards again
+        setTimeout(() => {
+            // Reset all cards
+            cards.forEach((card, index) => {
+                // Remove swipe classes
+                card.classList.remove('swipe-left', 'swipe-right');
+                
+                // Reset styles
+                card.style.display = 'flex';
+                card.style.transform = '';
+                card.style.opacity = '1';
+                card.style.zIndex = cards.length - index;
+                
+                // Destroy old hammer instance
+                if (card.hammerInstance) {
+                    card.hammerInstance.destroy();
+                }
+                
+                // Reinitialize swipe
+                initSwipe(card);
+            });
+            
+            console.log('Cards reset - infinite swiping enabled');
+        }, 500);
+    }
+    
+    // Initialize cards on page load
     cards.forEach((card, index) => {
         if (index < currentCardIndex) {
             card.style.display = 'none';
