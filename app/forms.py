@@ -37,6 +37,7 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Error checking email. Please try again.')
 
 class UserProfileForm(FlaskForm):
+    # User Info
     first_name = StringField("First Name", validators=[Optional()])
     last_name = StringField("Last Name", validators=[Optional()])
     email = StringField("Email", render_kw={"readonly": True})
@@ -49,6 +50,31 @@ class UserProfileForm(FlaskForm):
     gender = SelectField("Gender", choices=[("Female", "Female"), ("Male", "Male"), ("Other", "Other")], validators=[Optional()])
     password = PasswordField("New Password", validators=[Optional()])
     confirm_password = PasswordField("Confirm Password", validators=[Optional(), EqualTo("password")])
+
+    # Verification fields (Check Boxes)
+    phone_verified = BooleanField("Phone Verification")
+    bank_acc_verified = BooleanField("Bank Account Verification")
+    gov_id_verified = BooleanField("Government ID Verification")
+    emp_study_proof_verified = BooleanField("Employment/Study Proof Verification")
+    guarantor_verified = BooleanField("Guarantor Verification")
+
+    # Submit button
+    submit = SubmitField("Save Changes")
+
+    @property
+    def star_rating(self):
+        """
+        Calculate the star rating based on the verification fields.
+        Each True checkbox increases the rating by 1.
+        """
+        verified_fields = [
+            self.phone_verified.data,
+            self.bank_acc_verified.data,
+            self.gov_id_verified.data,
+            self.emp_study_proof_verified.data,
+            self.guarantor_verified.data
+        ]
+        return sum(1 for field in verified_fields if field)
 
 class DocumentForm(FlaskForm):
     upload_document = FileField(

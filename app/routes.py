@@ -836,6 +836,7 @@ def user_profile():
     form = UserProfileForm(obj=user)
 
     if form.validate_on_submit():
+        # Update profile fields
         user.first_name = form.first_name.data
         user.last_name = form.last_name.data
         # user.email is read-only
@@ -849,7 +850,16 @@ def user_profile():
         if form.password.data:
             user.set_password(form.password.data)
 
+        # Update the verification fields
+        user.phone_verified = form.phone_verified.data
+        user.bank_acc_verified = form.bank_acc_verified.data
+        user.gov_id_verified = form.gov_id_verified.data
+        user.emp_study_proof_verified = form.emp_study_proof_verified.data
+        user.guarantor_verified = form.guarantor_verified.data
+
+        # Commit the changes to the database
         db.session.commit()
+
         flash("Profile updated successfully!", "success")
         return redirect(url_for("main.user_profile"))
 
