@@ -70,8 +70,6 @@ Builds trust: A chat feature directly connects matched tenants and landlords, sp
     <td>@l-zhenyi</td>
   </tr>
   <tr>
-    <td>4</td>
-    <td>23832333</td>
     <td>Dharun Somalingam</td>
     <td>@DharunSomalingam</td>
   </tr>
