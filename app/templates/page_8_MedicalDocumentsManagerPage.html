@@ -67,8 +67,8 @@
                 <tr class="fw-bold text-muted">
                     <th>Document</th>
                     <th>Type</th>
-                    <th>Uploaded on</th>
-                    <th>Expires on</th>
+                    <!-- <th>Uploaded on</th>
+                    <th>Expires on</th> -->
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -81,6 +81,7 @@
                     </a>
                     </td>
                     <td>{{ doc.document_type }}</td>
+                    <!--
                     <td>{{ doc.upload_date.strftime('%d/%m/%Y') }}</td>
                     <td>
                         {% if doc.expiration_date %}
@@ -88,7 +89,7 @@
                         {% else %}
                         N/A
                         {% endif %}
-                    </td>
+                    </td> -->
                     <td>
                         <!-- UPDATED: blue btn-Tests + black text -->
                         <a href="{{ url_for('main.edit_document', doc_id=doc.id) }}"
@@ -104,6 +105,14 @@
                         <a href="{{ url_for('main.delete_document', doc_id=doc.id) }}" class="btn btn-Missed btn-sm"
                            onclick="return confirm('Delete this document?')">
                             Delete
+                        </a>
+
+                        <a class="btn verification">
+                            {% if doc.verification %}
+                            Verified
+                            {% else %}
+                            Not Verified
+                            {% endif %}
                         </a>
                     </td>
                 </tr>
