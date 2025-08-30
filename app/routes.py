@@ -4,6 +4,18 @@ import zipfile
 from datetime import datetime, timedelta, time, date
 from collections import Counter, defaultdict, OrderedDict
 from dateutil.relativedelta import relativedelta
+import ast
+import logging
+
+
+
+import os
+from mistralai import Mistral
+
+
+client = Mistral(api_key=os.getenv("MISTRAL_API_KEY"))
+
+
 
 from flask import (
     render_template, flash, redirect, url_for, request, session,
@@ -366,14 +378,20 @@ def appointment_manager():
     date = request.args.get('date', '')
     appt_type = request.args.get('type', '')
     order = request.args.get('order', 'asc')
+    ai_search_text = request.args.get('ai_search', '').strip()
 
+    # Get AI suburbs if AI search text exists
+    ai_suburbs = suggest_suburbs(ai_search_text) if ai_search_text else []
+    print(f"AI suburbs: {ai_suburbs}")
+
+    # Load appointments normally
     appointments = Appointment.query.filter_by(user_id=session["user_id"])
 
     if query:
         appointments = appointments.filter(
             (Appointment.appointment_type.ilike(f'%{query}%')) |
             (Appointment.appointment_notes.ilike(f'%{query}%')) |
-            (Appointment.practitioner_name.ilike(f'%{query}%')) 
+            (Appointment.practitioner_name.ilike(f'%{query}%'))
         )
     if practitioner:
         appointments = appointments.filter(Appointment.practitioner_name.ilike(f'%{practitioner}%'))
@@ -393,7 +411,6 @@ def appointment_manager():
     # Add days_away and status dynamically
     now = datetime.now()
     for appt in appointments:
-        appt_datetime = datetime.combine(appt.appointment_date, appt.starting_time)
         if appt.appointment_date and appt.starting_time:
             appt_datetime = datetime.combine(appt.appointment_date, appt.starting_time)
             appt.days_away = (appt_datetime.date() - now.date()).days
@@ -405,15 +422,12 @@ def appointment_manager():
                 appt.status = "Completed"
         else:
             appt.status = "Unknown"
-        appt.days_away = (appt_datetime.date() - now.date()).days
-        if appt_datetime.date() == now.date():
-            appt.status = "Today"
-        elif appt_datetime > now:
-            appt.status = "Upcoming"
-        else:
-            appt.status = "Completed"
 
-    return render_template("page_5_AppointmentsManagerPage.html", appointments=appointments)
+    return render_template(
+        "page_5_AppointmentsManagerPage.html",
+        appointments=appointments,
+        ai_suburbs=ai_suburbs
+    )
 
 
 
@@ -1152,6 +1166,43 @@ def change_password():
 
     return render_template("page_17_ChangePassword.html", form=form)
 
+
+
+def suggest_suburbs(bio_text: str) -> list[str]:
+    prompt = f"""
+    You are a helpful assistant for suggesting suburbs.
+    Based on the following bio, suggest 3 suitable suburbs:
+    {bio_text}
+
+    Return the response as a Python list of strings, e.g. ["Suburb1", "Suburb2", "Suburb3"].
+    Use only straight quotes (") and no extra punctuation.
+    """
+
+    try:
+        chat_response = client.chat.complete(
+            model="mistral-small-latest",
+            messages=[{"role": "user", "content": prompt}]
+        )
+
+        response_text = chat_response.choices[0].message.content.strip()
+
+        # Replace curly quotes with straight quotes
+        response_text = response_text.replace("’", "'").replace("“", '"').replace("”", '"')
+
+        # Parse safely
+        suburbs = ast.literal_eval(response_text)
+
+        if isinstance(suburbs, list) and all(isinstance(s, str) for s in suburbs):
+            return suburbs
+        else:
+            return []
+
+    except Exception as e:
+        print(f"Error generating suburbs: {e}")
+        return []
+
+      
 @blueprint.route("/landlord_chat", methods=["GET"])
 def landlord_chat():
     return render_template("chat.html")
+
