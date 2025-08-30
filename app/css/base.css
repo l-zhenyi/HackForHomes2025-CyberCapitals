@@ -1,0 +1,90 @@
+/* General reset & typography */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background: #f9f9fb;
+  color: #333;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content wrapper */
+main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Links & buttons */
+a {
+  color: #2c7be5;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+a:hover {
+  color: #1a5bbd;
+  text-decoration: underline;
+}
+
+.button {
+  display: inline-block;
+  background: #2c7be5;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+
+.button:hover {
+  background: #1a5bbd;
+}
+
+/* Flash messages */
+ul {
+  list-style: none;
+  margin: 1rem auto;
+  padding: 1rem;
+  max-width: 600px;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+
+ul li {
+  margin: 0.25rem 0;
+}
+
+/* Footer */
+footer {
+  background: #222;
+  color: #ddd;
+  text-align: center;
+  padding: 1.5rem;
+  margin-top: auto;
+}
+
+footer nav {
+  margin-top: 0.5rem;
+}
+
+footer nav a {
+  margin: 0 0.75rem;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+footer nav a:hover {
+  color: #fff;
+}
