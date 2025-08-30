@@ -1,15 +1,44 @@
-<!doctype html> 
-<html>
- <head> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       {% if title %} 
-<title>{{ title }} - Microblog</title> 
+      <title>{{ title }} | RentMatch</title> 
       {% else %} 
-<title>Welcome to Microblog</title> 
+      <title>RentMatch</title> 
       {% endif %} 
-</head> 
-<body> 
-<div>Microblog: <a href="/index">Home</a></div> 
-<hr> 
-        {% block content %}{% endblock %} 
-</body> 
-</html> 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a class="logo" href="{{ url_for('home') }}">RentMatch</a>
+        </div>
+      </header>
+
+      <hr> 
+      {% with messages = get_flashed_messages() %} 
+      {% if messages %} 
+      <ul> 
+            {% for message in messages %} 
+            <li>{{ message }}</li> 
+            {% endfor %} 
+      </ul> 
+      {% endif %} 
+      {% endwith %}  
+      
+      {% block content %}{% endblock %}
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 RentMatch. All rights reserved.</p>
+      <nav>
+        <a href="{{ url_for('terms_conditions') }}">Terms & Conditions</a>
+        <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
