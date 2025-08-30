@@ -15,13 +15,8 @@ Builds trust: A chat feature directly connects matched tenants and landlords, sp
 
 ## Setup Instructions
 
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/YOUR-TEAM/chronic-pain-tracker.git
-   cd chronic-pain-tracker
-
-   ```
+1. **Open the repository**
+   Open the project directory in your terminal.
 
 2. **Create a virtual environment**
 
