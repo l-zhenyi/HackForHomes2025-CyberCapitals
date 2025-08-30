@@ -89,9 +89,8 @@ class Document(db.Model):
     upload_date = db.Column(db.Date, nullable=False)
     document_type = db.Column(db.String(100), nullable=False)
     document_notes = db.Column(db.String(1000), nullable=False)
-    practitioner_name = db.Column(db.String(100), nullable=False)
     expiration_date = db.Column(db.Date, nullable=True)
-    practitioner_type = db.Column(db.String(100), nullable=True)
+    verification_status = db.Column(db.Boolean, default=False, nullable=False)
 
     shared_instances = db.relationship(
         'SharedDocument',

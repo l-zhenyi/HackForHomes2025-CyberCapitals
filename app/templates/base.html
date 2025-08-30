@@ -140,7 +140,7 @@
             <div class="container-fluid px-2">
                 <a class="navbar-brand"
                    href="{% if session.role == 'member' %}{{ url_for('main.dashboard') }}{% else %}{{ url_for('main.index') }}{% endif %}">
-                    <img class="logo" src="{{ url_for('static', filename='images/chronic-care-title.png') }}" alt="logo"
+                    <img class="logo" src="{{ url_for('static', filename='images/banner_logo.png') }}" alt="logo"
                          style="max-height:40px;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myList"
@@ -152,8 +152,10 @@
                         {% if session.get('role') == 'member' %}
                         <li class="nav-item"><a href="{{ url_for('main.dashboard') }}"
                                                 class="nav-item1 {% if request.endpoint == 'main.dashboard' %}active-link{% endif %}">Home</a></li>
+
                         <li class="nav-item"><a href="{{ url_for('main.appointment_manager') }}"
                                                 class="nav-item1 {% if request.endpoint == 'main.appointment_manager' %}active-link{% endif %}">Search</a></li>
+
                         <li class="nav-item"><a href="{{ url_for('main.medical_document') }}"
                                                 class="nav-item1 {% if request.endpoint == 'main.medical_document' %}active-link{% endif %}">Documents</a></li>
                         <li class="nav-item"><a href="{{ url_for('main.insights') }}"
@@ -194,8 +196,7 @@
 
         <!-- ===== Footer ===== -->
         <div class="footer">
-            <p>&copy; Copyright 2025. <span id='footer-name'>Chronic Care</span></p>
-            <p>Connect on <a href="#" class="footer-link">LinkedIn</a> | <a href="#" class="footer-link">Github</a></p>
+            <p>&copy; Copyright 2025. <span id='footer-name'>HomeSwipe</span></p>
         </div>
 
     </div>

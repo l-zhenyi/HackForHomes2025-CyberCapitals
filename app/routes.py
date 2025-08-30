@@ -101,6 +101,54 @@ def logout():
     flash("You have been logged out", "info")
     return redirect(url_for("main.index"))
 
+@blueprint.route('/swipe/<suburb>')
+def swipe(suburb):
+    houses = [
+        {
+            "id": 1,
+            "name": f"{suburb} House 1",
+            "price": "$1200/month",
+            "details": "2BHK, near park",
+            "owner": "Alice",
+            "photos": ["house1.png", "house2.png"]  # <- add here
+        },
+        {
+            "id": 2,
+            "name": f"{suburb} House 2",
+            "price": "$1500/month",
+            "details": "3BHK, close to station",
+            "owner": "Bob",
+            "photos": ["house3.png", "house4.png"]
+        },
+        {
+            "id": 3,
+            "name": f"{suburb} House 3",
+            "price": "$1000/month",
+            "details": "1BHK, quiet area",
+            "owner": "Charlie",
+            "photos": ["house5.png", "house6.png"]
+        }
+    ]
+    return render_template('swipe.html', suburb=suburb, houses=houses)
+
+
+@blueprint.route('/details/<int:house_id>')
+def details(house_id):
+    # For now, we can use fake data
+    houses = {
+        1: {"name": "House 1", "price": "$1200/month", "details": "2BHK, near park", "owner": "John Doe", "photos": ["house1.png", "house2.png"]},
+        2: {"name": "House 2", "price": "$1500/month", "details": "3BHK, close to station", "owner": "Jane Smith", "photos": ["house3.png", "house4.png"]},
+        3: {"name": "House 3", "price": "$1000/month", "details": "1BHK, quiet area", "owner": "Alice Brown", "photos": ["house5.png", "house6.png"]},
+        # add more if needed
+    }
+    
+    house = houses.get(house_id)
+    if not house:
+        return "House not found", 404
+
+    return render_template('details.html', house=house)
+
+
 # Page 3 - Register Page
 @blueprint.route("/register", methods=["GET", "POST"])
 def register():
@@ -517,7 +565,6 @@ def calendar():
 def medical_document():
     # Get all documents for the current user
     query = request.args.get('q', '').strip()  # Search query
-    practitioner = request.args.get('practitioner', '')  # Filter by practitioner
     doc_type = request.args.get('type', '')  # Filter by document type
     expiration_date = request.args.get('expiration_date', '')  # Filter by expiration date
     sort_by = request.args.get('sort', 'upload-desc')  # Sort by upload date or expiration date
@@ -529,13 +576,8 @@ def medical_document():
     if query:
         documents = documents.filter(
             (Document.document_name.ilike(f'%{query}%')) |
-            (Document.document_notes.ilike(f'%{query}%')) |
-            (Document.practitioner_name.ilike(f'%{query}%'))
+            (Document.document_notes.ilike(f'%{query}%')) 
         )
-
-    # Filter by practitioner name
-    if practitioner:
-        documents = documents.filter(Document.practitioner_name.ilike(f'%{practitioner}%'))
 
     # Filter by document type
     if doc_type:
@@ -567,7 +609,6 @@ def medical_document():
         documents=documents,
         sort_by=sort_by,
         query=query,
-        practitioner=practitioner,
         doc_type=doc_type,
         expiration_date=expiration_date
     )
@@ -663,8 +704,7 @@ def upload_document():
         document_name = request.form['document_name']
         document_type = request.form['document_type']
         document_notes = request.form.get('document_notes', '')
-        practitioner_name = request.form.get('practitioner_name', '')
-        practitioner_type = request.form.get('practitioner_type', '')
+        verification_status = False
 
         # Parse and validate date fields
         upload_date_str = request.form.get('upload_date')
@@ -693,8 +733,7 @@ def upload_document():
             document_name=document_name,
             document_type=document_type,
             document_notes=document_notes,
-            practitioner_name=practitioner_name,
-            practitioner_type=practitioner_type,
+            verification_status=verification_status,
             upload_date=upload_date,
             expiration_date=expiration_date,
             file=filename
@@ -850,6 +889,7 @@ def user_profile():
     form = UserProfileForm(obj=user)
 
     if form.validate_on_submit():
+        # Update profile fields
         user.first_name = form.first_name.data
         user.last_name = form.last_name.data
         # user.email is read-only
@@ -863,7 +903,16 @@ def user_profile():
         if form.password.data:
             user.set_password(form.password.data)
 
+        # Update the verification fields
+        user.phone_verified = form.phone_verified.data
+        user.bank_acc_verified = form.bank_acc_verified.data
+        user.gov_id_verified = form.gov_id_verified.data
+        user.emp_study_proof_verified = form.emp_study_proof_verified.data
+        user.guarantor_verified = form.guarantor_verified.data
+
+        # Commit the changes to the database
         db.session.commit()
+
         flash("Profile updated successfully!", "success")
         return redirect(url_for("main.user_profile"))
 
@@ -895,9 +944,7 @@ def edit_document(doc_id):
         document.upload_date = form.upload_date.data
         document.document_type = form.document_type.data
         document.document_notes = form.document_notes.data
-        document.practitioner_name = form.practitioner_name.data
         document.expiration_date = form.expiration_date.data
-        document.practitioner_type = form.practitioner_type.data
 
         db.session.commit()
 
@@ -1121,8 +1168,6 @@ def change_password():
 
 
 
-import ast
-
 def suggest_suburbs(bio_text: str) -> list[str]:
     prompt = f"""
     You are a helpful assistant for suggesting suburbs.
@@ -1155,3 +1200,9 @@ def suggest_suburbs(bio_text: str) -> list[str]:
     except Exception as e:
         print(f"Error generating suburbs: {e}")
         return []
+
+      
+@blueprint.route("/landlord_chat", methods=["GET"])
+def landlord_chat():
+    return render_template("chat.html")
+
