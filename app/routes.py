@@ -318,6 +318,11 @@ def appointment_manager():
     date = request.args.get('date', '')
     appt_type = request.args.get('type', '')
     order = request.args.get('order', 'asc')
+    ai_search_text = request.args.get('ai_search', '').strip()  # get AI search input
+
+    ai_search_terms = [term.strip() for term in ai_search_text.split(',') if term.strip()]
+
+    print(ai_search_terms)
 
     appointments = Appointment.query.filter_by(user_id=session["user_id"])
 

@@ -3,46 +3,108 @@
 {% block content %}
 
 <!-- Main heading -->
-<h1 class="title-purple-text text-center mt-5">Your Appointments</h1>
+<h1 class="title-purple-text text-center mt-5" style="font-size: 24px;">Find A Place</h1>
 
-<div class="container mt-5">
-    <div class="text-center mb-5">
-        <div class="d-flex justify-content-center gap-3 mt-3">
-            <a href="{{ url_for('main.add_appointment') }}" class="btn btn-purple-calender px-4 py-2">
-                + Add Appointment
-            </a>
-        </div>
+<form method="GET" class="d-flex flex-wrap align-items-end gap-3 mb-3">
+    <!-- Search -->
+    <div class="flex-grow-1">
+        <label for="q" class="form-label fw-semibold text-purple">Search by Street, Suburb, or City</label>
+        <input type="text" name="q" class="form-control" placeholder="e.g. Dr Jess or 'Checkup'"
+               value="{{ request.args.get('q', '') }}">
     </div>
 
-    <form method="GET" class="d-flex flex-wrap align-items-end gap-3 mb-3">
-        <!-- Search -->
-        <div class="flex-grow-1">
-            <label for="q" class="form-label fw-semibold text-purple">Search by practitioner, type, or notes</label>
-            <input type="text" name="q" class="form-control" placeholder="e.g. Dr Jess or 'Checkup'"
-                value="{{ request.args.get('q', '') }}">
+    <!-- Toggle more filters -->
+    <div>
+        <button class="btn btn-outline-secondary px-2 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters">
+            More Filters
+        </button>
+    </div>
+
+    <!-- Collapsible more filters section -->
+    <div class="collapse w-100 mt-3" id="moreFilters">
+        <div class="d-flex flex-wrap align-items-end gap-3">
+            <!-- Date filter -->
+            <div>
+                <label for="date" class="form-label fw-semibold text-purple">Move-In Date</label>
+                <input type="date" name="date" class="form-control" value="{{ request.args.get('date', '') }}">
+            </div>
+
+            <!-- Type dropdown -->
+            <div>
+                <label for="type" class="form-label fw-semibold text-purple">House Type</label>
+                <select name="type" class="form-select">
+                    <option value="">All types</option>
+                    <option value="general" {% if request.args.get('type')=='general' %}selected{% endif %}>Entire House</option>
+                    <option value="follow-up" {% if request.args.get('type')=='follow-up' %}selected{% endif %}>Appartment</option>
+                    <option value="test" {% if request.args.get('type')=='test' %}selected{% endif %}>Single Room</option>
+                    <option value="checkup" {% if request.args.get('type')=='checkup' %}selected{% endif %}>Mutiple Room</option>
+                    <option value="consultation" {% if request.args.get('type')=='consultation' %}selected{% endif %}>Student Accomodation</option>
+                </select>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <div>
+                <label for="price_min" class="form-label fw-semibold text-purple">Min Price</label>
+                <input type="number" name="price_min" class="form-control" placeholder="0" value="{{ request.args.get('price_min', '') }}">
+            </div>
+            <div>
+                <label for="price_max" class="form-label fw-semibold text-purple">Max Price</label>
+                <input type="number" name="price_max" class="form-control" placeholder="10000" value="{{ request.args.get('price_max', '') }}">
+            </div>
         </div>
 
-        <!-- Date filter -->
+        <!-- Furnished -->
         <div>
-            <label for="date" class="form-label fw-semibold text-purple">Appointment Date</label>
-            <input type="date" name="date" class="form-control" value="{{ request.args.get('date', '') }}">
+            <label class="form-label fw-semibold text-purple">Furnished</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="furnished" value="yes" id="furnished" {% if request.args.get('furnished')=='yes' %}checked{% endif %}>
+                <label class="form-check-label" for="furnished">Yes</label>
+            </div>
         </div>
 
-        <!-- Type dropdown -->
+        <!-- Bedrooms -->
         <div>
-            <label for="type" class="form-label fw-semibold text-purple">Appointment Type</label>
-            <select name="type" class="form-select">
-                <option value="">All types</option>
-                <option value="general" {% if request.args.get('type')=='general' %}selected{% endif %}>General</option>
-                <option value="follow-up" {% if request.args.get('type')=='follow-up' %}selected{% endif %}>Follow-Up
-                </option>
-                <option value="test" {% if request.args.get('type')=='test' %}selected{% endif %}>Test</option>
-                <option value="checkup" {% if request.args.get('type')=='checkup' %}selected{% endif %}>Checkup</option>
-                <option value="consultation" {% if request.args.get('type')=='consultation' %}selected{% endif %}>
-                    Consultation</option>
+            <label for="bedrooms" class="form-label fw-semibold text-purple">Bedrooms</label>
+            <select name="bedrooms" class="form-select">
+                <option value="">Any</option>
+                {% for i in range(1, 6) %}
+                <option value="{{ i }}" {% if request.args.get('bedrooms')==i|string %}selected{% endif %}>{{ i }}</option>
+                {% endfor %}
             </select>
         </div>
 
+    </div>
+
+
+
+    <!-- Submit button -->
+    <div>
+        <button type="submit" class="btn btn-purple-calender px-4 fw-bold">Search</button>
+    </div>
+
+    <div>
+        <button class="btn btn-outline-secondary px-2 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#AIFilters" aria-expanded="false" aria-controls="moreFilters">
+            AI search
+        </button>
+    </div>
+
+    <div class="collapse w-100 mt-3" id="AIFilters">
+        <div class="flex-grow-1">
+            <label for="ai_search" class="form-label fw-semibold text-purple">AI Search</label>
+            <textarea name="ai_search" class="form-control" rows="3" placeholder="Describe what you are looking for...">{{ request.args.get('ai_search', '') }}</textarea>
+        </div>
+        </div>
+
+</form>
+
+        <div class="container mt-5">
+            <div class="text-center mb-5">
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                    <a href="{{ url_for('main.add_appointment') }}" class="btn btn-purple-calender px-4 py-2">
+                        + Add Appointment
+                    </a>
+                </div>
+            </div>
         <!-- Sort dropdown -->
         <div>
             <label for="order" class="form-label fw-semibold text-purple">Sort By</label>
