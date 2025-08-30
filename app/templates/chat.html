@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat with Landlord - Property Viewing{% endblock %}
+
+{% block content %}
+<div class="container mt-4" style="max-width: 800px;">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <!-- Chat Header -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-comments me-2"></i>
+                        Chat with <span id="landlord-name"></span>
+                    </h5>
+                    <small class="text-light">Property Viewing Discussion</small>
+                </div>
+                
+                <!-- Chat Messages Container -->
+                <div class="card-body p-0">
+                    <div id="chat-container" class="chat-messages" style="height: 400px; overflow-y: auto; padding: 20px;">
+                        <!-- Messages will be populated here -->
+                    </div>
+                </div>
+                
+                <!-- Message Input -->
+                <div class="card-footer">
+                    <div class="input-group">
+                        <input type="text" id="user-input" class="form-control" 
+                               placeholder="Type your message..." 
+                               disabled>
+                        <button class="btn btn-primary" id="send-btn" type="button" disabled>
+                            <i class="fas fa-paper-plane"></i> Send
+                        </button>
+                    </div>
+                    <small class="text-muted mt-1 d-block">Press Enter to send message</small>
+                </div>
+            </div>
+            
+            <!-- Back/Navigation Button -->
+            <div class="text-center mt-4">
+                <a href="{{ url_for('main.login') }}" class="btn intro-btn px-4">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Main
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Chat-specific styles */
+.chat-messages {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 70%;
+    word-wrap: break-word;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.message.landlord {
+    background-color: #e9ecef;
+    color: #333;
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+.message.user {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+    margin-left: auto;
+    border-bottom-right-radius: 5px;
+}
+
+.message-sender {
+    font-weight: bold;
+    font-size: 0.85em;
+    margin-bottom: 5px;
+    opacity: 0.8;
+}
+
+.message-time {
+    font-size: 0.75em;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+.typing-indicator {
+    display: none;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    background-color: #e9ecef;
+    border-radius: 18px;
+    max-width: 70%;
+    border-bottom-left-radius: 5px;
+}
+
+.typing-dots {
+    display: inline-block;
+}
+
+.typing-dots span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #999;
+    margin: 0 2px;
+    animation: typing 1.4s infinite;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.5;
+    }
+    30% {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .message {
+        max-width: 85%;
+    }
+    
+    .chat-messages {
+        height: 300px;
+    }
+}
+
+/* Custom button styling to match your theme */
+.intro-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 25px;
+    transition: all 0.3s ease;
+}
+
+.intro-btn:hover {
+    background-color: #0056b3;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Array of random landlord names
+    const landlordNames = [
+        'Sarah Johnson', 'Mike Chen', 'David Rodriguez', 'Emma Thompson', 
+        'Alex Parker', 'Lisa Williams', 'John Martinez', 'Rachel Green',
+        'Tom Anderson', 'Maria Garcia'
+    ];
+    
+    // Select random landlord name
+    const landlordName = landlordNames[Math.floor(Math.random() * landlordNames.length)];
+    document.getElementById('landlord-name').textContent = landlordName;
+    
+    const chatContainer = document.getElementById('chat-container');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    
+    let chatStep = 0; // Track conversation progress
+    
+    // Function to add message to chat
+    function addMessage(sender, message, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user' : 'landlord'}`;
+        
+        const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        
+        messageDiv.innerHTML = `
+            <div class="message-sender">${sender}</div>
+            <div>${message}</div>
+            <div class="message-time">${currentTime}</div>
+        `;
+        
+        chatContainer.appendChild(messageDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+    
+    // Function to show typing indicator
+    function showTyping() {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'typing-indicator';
+        typingDiv.id = 'typing-indicator';
+        typingDiv.innerHTML = `
+            <div class="message-sender">${landlordName}</div>
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        `;
+        
+        chatContainer.appendChild(typingDiv);
+        document.getElementById('typing-indicator').style.display = 'block';
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+    
+    // Function to hide typing indicator
+    function hideTyping() {
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+    
+    // Function to handle landlord responses
+    function landlordResponse() {
+        if (chatStep === 1) {
+            showTyping();
+            setTimeout(() => {
+                hideTyping();
+                addMessage(landlordName, 'Great! 😊 I\'ll send you the address details shortly. Looking forward to meeting you on Friday at 5PM.');
+                
+                // Add final message after a short delay
+                setTimeout(() => {
+                    showTyping();
+                    setTimeout(() => {
+                        hideTyping();
+                        addMessage(landlordName, 'The address is 123 Oak Street. Please bring a valid ID and proof of income. See you then!');
+                        
+                        // Disable input after conversation ends
+                        setTimeout(() => {
+                            userInput.disabled = true;
+                            sendBtn.disabled = true;
+                            userInput.placeholder = "Conversation ended. Great job!";
+                        }, 2000);
+                    }, 1500);
+                }, 3000);
+            }, 2000);
+        }
+    }
+    
+    // Function to send user message
+    function sendMessage() {
+        const message = userInput.value.trim();
+        if (message && !userInput.disabled) {
+            addMessage('You', message, true);
+            userInput.value = '';
+            
+            if (chatStep === 0) {
+                chatStep = 1;
+                landlordResponse();
+            }
+        }
+    }
+    
+    // Event listeners
+    sendBtn.addEventListener('click', sendMessage);
+    
+    userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+    
+    // Initialize chat with landlord's first message
+    setTimeout(() => {
+        addMessage(landlordName, 'Hi! I saw you are interested in renting with me. Can you view the house on Friday at 5PM?');
+        
+        // Enable input after initial message
+        setTimeout(() => {
+            userInput.disabled = false;
+            sendBtn.disabled = false;
+            userInput.focus();
+            userInput.placeholder = "Type something like: Yes, that works for me. Thank you!";
+        }, 1000);
+    }, 500);
+});
+</script>
+{% endblock %}
