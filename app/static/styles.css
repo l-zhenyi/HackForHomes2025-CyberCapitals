@@ -1,5 +1,5 @@
 body {
-  background-color: #fffdf5; /*coral*/
+  background-color: #f8f5ff; /*coral*/
   margin: 0;
 }
 /**----------navbar----------**/
@@ -10,7 +10,7 @@ img.logo {
 }
 
 .navbar {
-  background-color: #f5ece3;
+  background-color: #e9e3f5;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -24,7 +24,7 @@ img.logo {
 }
 
 .navbar-nav .nav-link {
-  color: #723724;
+  color: #6440b4;
   font-size: 14px;
   font-weight: 500;
 }
@@ -38,7 +38,7 @@ img.logo {
   font-size: 15px;
   margin-right: 15px;
   margin-left: 15px;
-  color: #723724;
+  color: #6440b4;
 }
 a.nav-item1.active-link {
   color: rgb(230, 24, 24); /* or any color to highlight the active page */
@@ -46,7 +46,7 @@ a.nav-item1.active-link {
 }
 .nav1 a:hover,
 .nav2 a:hover {
-  color: #723724 !important;
+  color: #6f42c1 !important;
   text-decoration: underline;
 }
 /**----------navbar------------**/
@@ -61,19 +61,19 @@ a.nav-item1.active-link {
   overflow-y: auto;
 }
 .notif-bold-text {
-  color: #723724;
+  color: #6f42c1;
   font-weight: 700;
   font-size: 16px;
 }
 .notif-small-text {
-  color: #723724;
+  color: #6f42c1;
   font-weight: 600;
   font-size: 14px;
 }
 
 .btn-notif {
   display: inline-block;
-  background-color: #723724;
+  background-color: #6f42c1;
   color: #fff;
   padding: 2px 25px; /** topbot rightleft*/
   border-radius: 30px;
