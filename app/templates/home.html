@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
+
+<main class="home">
+
+    <section class="welcome">
+        <h1>Home hunting made simple</h1>
+        <a href="{{ url_for('signup')}}" class="button">Get matched</a>
+    </section>
+
+    <!-- Example swipe cards -->
+    <section class="showcase">
+        <h2> {{ total_properties }} homes looking for a new tenant. One could be yours!</h2>
+        <div class="property_cards">
+            {% for property in sample_properties %}
+            <div class="card">
+                <img src="{{ property.image_url }}" alt="Property image">
+                <div class="card_content">
+                    <h3>{{ property.title }}</h3>
+                    <p>{{ property.location }} | ${{ property.price }} / month</p>
+                    <p>{{ property.bedrooms }} BR · {{ property.bathrooms }} BA</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="features_list">
+            <div class="feature">
+                <h3>Swipe & Match</h3>
+                <p>Connect instantly with the right landlord</p>
+            </div>
+            <div class="feature">
+                <h3>Fair & Inclusive</h3>
+                <p>Personal details are hidden until matched</p>
+            </div>
+            <div class="feature">
+                <h3>Verified Listings</h3>
+                <p>Transparent property and landlord ratings, and safe housing guarantees.</p>
+            </div>
+            <div class="feature">
+                <h3>Crisis Support</h3>
+                <p>Toggle "Crisis Mode" to find emergency housing or shelters nearby</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock %}
