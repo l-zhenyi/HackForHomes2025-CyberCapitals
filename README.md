@@ -6,7 +6,7 @@ Our application aims to address these issues:
 Eliminating mass applications for both landlords and tenants: Efficiently match tenants and landlords based off preferences with a Tinder-based swiping system and an AI-rental recommendation system.
 Reduce bias: Tenants will verify valid documentation which landlords can view, decreasing the chances of them being blindly rejected.
 Builds trust: A chat feature directly connects matched tenants and landlords, speeding up the process of securing a rental.
----
+
 
 ## Table of Contents
 - [Setup Instructions](#setup-instructions)
