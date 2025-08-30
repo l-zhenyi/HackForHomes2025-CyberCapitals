@@ -1114,3 +1114,7 @@ def change_password():
         return redirect(url_for("main.user_profile"))
 
     return render_template("page_17_ChangePassword.html", form=form)
+
+@blueprint.route("/landlord_chat", methods=["GET"])
+def landlord_chat():
+    return render_template("chat.html")
