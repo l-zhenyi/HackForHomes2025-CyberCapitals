@@ -1,4 +1,4 @@
-# Rent Match
+# HomeSwipe
 An application designed for Hack for Homes 2025.
 
 **Problem:** Tenants, even those with valid documentation, are forced to mass apply and get rejected repeatedly, creating an unnecessary backlog. Similarly, landlords receive overwhelming amounts of applications and cannot afford to assess them fairly.
