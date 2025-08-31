@@ -72,8 +72,4 @@ Our application aims to address these issues by:
     <td>Dharun Somalingam</td>
     <td>DharunSomalingam</td>
   </tr>
-    <tr>
-       <td>Pranit Kasturi</td>
-       <td>Pranit-Kasturi</td>
-  </tr>
 </table>
