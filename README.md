@@ -11,6 +11,10 @@ Our application aims to address these issues by:
 
 **Builds trust:** A chat feature directly connects matched tenants and landlords, speeding up the process of securing a rental.
 
+# Video Demo
+https://github.com/user-attachments/assets/941e9f34-5f00-4dad-ad2d-ea62057f9dc9
+
+
 ---
 ## Table of Contents
 - [Setup Instructions](#setup-instructions)
